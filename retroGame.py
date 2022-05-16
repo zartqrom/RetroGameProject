@@ -7,6 +7,10 @@
 
 from tkinter import *
 
+listGamesExtension = [".apple2", ".gb", ".gbc", ".gba", ".gg", ".lynx", ".nes", ".snes",
+                      ".pce", ".lynx", ".md", ".pcfx", ".ngp", ".psx", ".sms", ".pce_fast",
+                      ".ssfplay", ".cue"]
+
 class InterfazJuegos:
 
     def __init__(self,):
