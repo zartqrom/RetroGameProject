@@ -36,10 +36,13 @@ class GameInterface:
         self.window.geometry('1200x800')
         self.window.title("Retro Games")
         
-        #Creates the widget for the list
-        self.listbox = Listbox(self.window)
-        #Add the games found it
+        #Creates the widget for the list and configures the element selected
+        # with green background
+        self.listbox = Listbox(self.window, selectbackground="#00aa00")
+        #Adds the games found it
         self.listbox.insert(0, *gamesToRun)
+        #Selects the first element by default
+        self.listbox.selection_set(0)
         self.listbox.pack()
 
         #Refresh window
