@@ -28,26 +28,26 @@ def getGames():
     #print("Lista de juegos: ")
     #print(gamesToRun)
 
-class InterfazJuegos:
+class GameInterface:
 
     def __init__(self):
-        #Inicializa la ventana
-        self.ventana = Tk()
-        self.ventana.geometry('1200x800')
-        self.ventana.title("Retro Games")
+        #Startup window
+        self.window = Tk()
+        self.window.geometry('1200x800')
+        self.window.title("Retro Games")
         
         #Creates the widget for the list
-        self.listbox = Listbox(self.ventana)
+        self.listbox = Listbox(self.window)
         #Add the games found it
         self.listbox.insert(0, *gamesToRun)
         self.listbox.pack()
 
-        #Refresca la ventana
-        self.ventana.mainloop()
+        #Refresh window
+        self.window.mainloop()
 
 def main():
     getGames()
-    interfaz = InterfazJuegos()
+    interface = GameInterface()
     
 if __name__ == "__main__":
     main()
