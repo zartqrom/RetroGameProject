@@ -11,6 +11,8 @@ listGamesExtension = [".apple2", ".gb", ".gbc", ".gba", ".gg", ".lynx", ".nes", 
                       ".pce", ".lynx", ".md", ".pcfx", ".ngp", ".psx", ".sms", ".pce_fast",
                       ".ssfplay", ".cue"]
 
+dirGames="/home/pi/Documents/Games"
+
 class InterfazJuegos:
 
     def __init__(self,):
