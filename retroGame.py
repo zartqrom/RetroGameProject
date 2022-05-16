@@ -13,13 +13,29 @@ listGamesExtension = [".apple2", ".gb", ".gbc", ".gba", ".gg", ".lynx", ".nes", 
 
 dirGames="/home/pi/Documents/Games"
 
+files = os.listdir(dirGames)
+
+gamesToRun=[]
+
+def getGames():
+    for element in files:
+        for ext in listGamesExtension:
+            if element.endswith(ext):
+                gamesToRun.append(element)
+
+    print("Lista de juegos: ")
+    print(gamesToRun)
+
 class InterfazJuegos:
 
-    def __init__(self,):
+    def __init__(self):
         #Inicializa la ventana
         self.ventana = Tk()
         self.ventana.geometry('1200x800')
         self.ventana.title("Retro Games")
+        
+        self.listbox = Listbox(self.ventana)
+        self.listbox.pack()
 
         #Refresca la ventana
         self.ventana.mainloop()
