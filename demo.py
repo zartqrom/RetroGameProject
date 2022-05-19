@@ -1,10 +1,3 @@
-#!/usr/bin/env python3
-################################################
-# Author: Erick Hazel Rocha García
-# License: MIT
-# Description: Displays games available to run
-################################################
-
 from tkinter import *
 import os
 
@@ -17,16 +10,6 @@ dirGames="/home/pi/Documents/Games"
 files = os.listdir(dirGames)
 
 gamesToRun=[]
-
-def getGames():
-    print(files,"\n")
-    for element in files:
-        for ext in listGamesExtension:
-            if element.endswith(ext):
-                gamesToRun.append(element)
-
-    print("Lista de juegos: ")
-    print(gamesToRun)
 
 def initInterface(window):
     #Configure the window
@@ -44,7 +27,6 @@ def initInterface(window):
 
 #Startup window
 window = Tk()
-getGames()
 initInterface(window)
 #Refresh window
 window.mainloop()
