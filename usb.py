@@ -1,3 +1,9 @@
+#!/usr/bin/env python3
+################################################
+# Author: Erick Hazel Rocha García
+# License: MIT
+# Description: Displays games available to run in Madfen
+################################################
 from time import sleep
 from psutil import disk_partitions
 
