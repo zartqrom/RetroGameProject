@@ -2,11 +2,12 @@
 ################################################
 # Author: Erick Hazel Rocha García
 # License: MIT
-# Description: Displays games available to run
+# Description: Displays games available to run in Madfen
 ################################################
 
-from tkinter import *
 import os
+import enquiries
+import pyautogui
 
 listGamesExtension = [".apple2", ".gb", ".gbc", ".gba", ".gg", ".lynx", ".nes", ".snes",
                       ".pce", ".lynx", ".md", ".pcfx", ".ngp", ".psx", ".sms", ".pce_fast",
@@ -28,23 +29,6 @@ def getGames():
     print("Lista de juegos: ")
     print(gamesToRun)
 
-def initInterface(window):
-    #Configure the window
-    window.geometry('800x800')
-    window.title("Retro Games")
-    
-    #Creates the widget for the list and configures the element selected
-    # with green background
-    listbox = Listbox(window, selectbackground="#00aa00")
-    #Adds the games found it
-    listbox.insert(0, *gamesToRun)
-    #Selects the first element by default
-    listbox.selection_set(0)
-    listbox.pack()
-
-#Startup window
-window = Tk()
 getGames()
-initInterface(window)
-#Refresh window
-window.mainloop()
+choice = enquiries.choose('Choose one: ', gamesToRun)
+print("Game to run: ", choice)
