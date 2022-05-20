@@ -7,7 +7,6 @@
 
 import os
 import enquiries
-import pyautogui
 
 listGamesExtension = [".apple2", ".gb", ".gbc", ".gba", ".gg", ".lynx", ".nes", ".snes",
                       ".pce", ".lynx", ".md", ".pcfx", ".ngp", ".psx", ".sms", ".pce_fast",
@@ -32,3 +31,5 @@ def getGames():
 getGames()
 choice = enquiries.choose('Choose one: ', gamesToRun)
 print("Game to run: ", choice)
+command = "mednafen "+dirGames+"/"+choice
+os.system(command)
