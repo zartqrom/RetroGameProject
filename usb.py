@@ -11,7 +11,8 @@ from datetime import datetime
 import shutil
 from pyudev import Context, Monitor
 
-nameUSB = os.listdir("/media/pi")
+mountDir = "/media/pi"
+destPathGames = "/home/pi/Documents/Games"
 
 context = Context()
 monitor = Monitor.from_netlink(context)
@@ -21,11 +22,15 @@ while True:
     device = None
     while device is None:
         print("Checando")
-        device = monitor.poll(timeout=3)
+        device = monitor.poll(timeout=1)
     if device.action == "add":
         print("USB added")
-        print("\nUSB conected ->", nameUSB)
-    elif device.action == "remove" or device.action == "offline":
+        #Waits until the device is mounted
+        sleep(5)
+        #Name of the USB as String
+        nameUSB = str(os.listdir(mountDir)[0])
+        pathUSB = mountDir+"/"+nameUSB
+    elif device.action == "remove":
         print("USB removed")
 
 # while True:
