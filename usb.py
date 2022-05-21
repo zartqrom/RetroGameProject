@@ -4,29 +4,42 @@
 # License: MIT
 # Description: Displays games available to run in Madfen
 ################################################
+import os
 import pathlib
 from time import sleep
+from datetime import datetime
 import shutil
-from psutil import disk_partitions
+from pyudev import Context, Monitor
+from pyudev.glib import MonitorObserver
 
-destination = ""
+context = Context()
+monitor = Monitor.from_netlink(context)
+monitor.filter_by(subsystem='usb', device_type='usb_device')
 
 while True:
-    sleep(1)
-    for elem in disk_partitions():
-        if 'removable' in elem.opts:
-            print("USB encontrada", elem.device)
-            deviceDetected = str(elem.device)
-            contentUSB = pathlib.Path(deviceDetected)
-            for file in contentUSB.iterdir():
-                if file.is_file():
-                    completePathGame = deviceDetected+file
-                    shutil.copy(completePathGame, destination)
-            
-            print("Pausar emulacion")
-            print("Copiar ROMS")
-            print("ROMs copiadas")
-            print("Remover USB")
-        else:
-            print("Sin USB conectada")
+    device = None
+    while device is None:
+        print("Checando")
+        device = monitor.poll(timeout=3)
+    print("\nUSB conected")
+
+# while True:
+#     sleep(1)
+#     for elem in disk_partitions():
+#         print("DISC: \n", elem)
+#         if 'removable' in elem.opts:
+#             try:
+#                 os.system("pkill -STOP mednafen")
+#             except:
+#                 print("Mednafen is not running")
+#             print("USB encontrada", elem.device)
+#             deviceDetected = str(elem.device)
+#             contentUSB = pathlib.Path(deviceDetected)
+#             for file in contentUSB.iterdir():
+#                 if file.is_file():
+#                     print("Copying ")
+#                     completePathGame = deviceDetected+file
+#                     shutil.copy(completePathGame, destination)
+#         else:
+#             print("Sin USB conectada")
 
