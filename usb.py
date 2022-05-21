@@ -30,6 +30,12 @@ while True:
         #Name of the USB as String
         nameUSB = str(os.listdir(mountDir)[0])
         pathUSB = mountDir+"/"+nameUSB
+        with os.scandir(pathUSB) as contentUSB:
+            for file in contentUSB:
+                if file.is_file():
+                    print("Copying \n")
+                    completePathGame = pathUSB+"/"+file.name
+                    shutil.copy(completePathGame, destPathGames)
     elif device.action == "remove":
         print("USB removed")
 
