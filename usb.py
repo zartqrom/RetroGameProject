@@ -10,7 +10,8 @@ from time import sleep
 from datetime import datetime
 import shutil
 from pyudev import Context, Monitor
-from pyudev.glib import MonitorObserver
+
+nameUSB = os.listdir("/media/pi")
 
 context = Context()
 monitor = Monitor.from_netlink(context)
@@ -21,7 +22,11 @@ while True:
     while device is None:
         print("Checando")
         device = monitor.poll(timeout=3)
-    print("\nUSB conected")
+    if device.action == "add":
+        print("USB added")
+        print("\nUSB conected ->", nameUSB)
+    elif device.action == "remove" or device.action == "offline":
+        print("USB removed")
 
 # while True:
 #     sleep(1)
