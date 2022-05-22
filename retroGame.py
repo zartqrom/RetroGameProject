@@ -34,12 +34,8 @@ def initGame():
     os.system("clear")
     choice = enquiries.choose('Choose one: ', gamesToRun)
     game = "\""+choice+"\""
-    print(game)
     command = "mednafen "+dirGames+"/"+game+" &"
-    print(command)
-    sleep(15)
     os.system(command)
-    sleep(15)
 
 subprocess.call("python3 usb.py &", shell=True)
 initGame()
