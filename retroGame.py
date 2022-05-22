@@ -5,7 +5,9 @@
 # Description: Displays games available to run in Mednafen
 ##########################################################
 
+from dataclasses import replace
 import os
+from time import sleep
 import enquiries
 import subprocess
 
@@ -16,7 +18,7 @@ listGamesExtension = [".apple2", ".gb", ".gbc", ".gba", ".gg", ".lynx", ".nes", 
 dirGames="/home/pi/Documents/Games"
 
 gamesToRun=[]
-
+ 
 def getGames():
     files = os.listdir(dirGames)
     print(files,"\n")
@@ -31,8 +33,13 @@ def initGame():
     getGames()
     os.system("clear")
     choice = enquiries.choose('Choose one: ', gamesToRun)
-    command = "mednafen "+dirGames+"/"+choice+" &"
+    game = "\""+choice+"\""
+    print(game)
+    command = "mednafen "+dirGames+"/"+game+" &"
+    print(command)
+    sleep(15)
     os.system(command)
+    sleep(15)
 
 subprocess.call("python3 usb.py &", shell=True)
 initGame()
