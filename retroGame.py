@@ -29,6 +29,7 @@ def initGame():
     #Clears the list of games
     gamesToRun.clear()
     getGames()
+    os.system("clear")
     choice = enquiries.choose('Choose one: ', gamesToRun)
     command = "mednafen "+dirGames+"/"+choice+" &"
     os.system(command)
