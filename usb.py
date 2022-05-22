@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-################################################
+###########################################################
 # Author: Erick Hazel Rocha García
 # License: MIT
-# Description: Displays games available to run in Madfen
-################################################
+# Description: Displays games available to run in Mednafen
+###########################################################
 import os
 from time import sleep
 import shutil
@@ -46,4 +46,4 @@ while True:
             print("Mednafen is not running")
     elif device.action == "remove":
         print("USB removed")
-
+        break

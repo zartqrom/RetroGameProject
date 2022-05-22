@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-################################################
+##########################################################
 # Author: Erick Hazel Rocha García
 # License: MIT
-# Description: Displays games available to run in Madfen
-################################################
+# Description: Displays games available to run in Mednafen
+##########################################################
 
 import os
 import enquiries
@@ -15,11 +15,10 @@ listGamesExtension = [".apple2", ".gb", ".gbc", ".gba", ".gg", ".lynx", ".nes", 
 
 dirGames="/home/pi/Documents/Games"
 
-files = os.listdir(dirGames)
-
 gamesToRun=[]
 
 def getGames():
+    files = os.listdir(dirGames)
     print(files,"\n")
     for element in files:
         for ext in listGamesExtension:
@@ -32,7 +31,7 @@ def initGame():
     getGames()
     choice = enquiries.choose('Choose one: ', gamesToRun)
     command = "mednafen "+dirGames+"/"+choice+" &"
-    os.system(command)    
+    os.system(command)
 
 subprocess.call("python3 usb.py &", shell=True)
 initGame()
