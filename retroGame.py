@@ -5,9 +5,11 @@
 # Description: Displays games available to run in Madfen
 ################################################
 
-import os
+import os, sys
+from time import sleep
 import enquiries
 import subprocess
+import pyudev
 
 listGamesExtension = [".apple2", ".gb", ".gbc", ".gba", ".gg", ".lynx", ".nes", ".snes",
                       ".pce", ".lynx", ".md", ".pcfx", ".ngp", ".psx", ".sms", ".pce_fast",
@@ -26,12 +28,17 @@ def getGames():
             if element.endswith(ext):
                 gamesToRun.append(element)
 
-    print("Lista de juegos: ")
-    print(gamesToRun)
+def initGame():
+    #Clears the list of games
+    gamesToRun.clear()
+    getGames()
+    choice = enquiries.choose('Choose one: ', gamesToRun)
+    command = "mednafen "+dirGames+"/"+choice+" &"
+    os.system(command)    
 
-getGames()
-choice = enquiries.choose('Choose one: ', gamesToRun)
-print("Game to run: ", choice)
-command = "mednafen "+dirGames+"/"+choice+" &"
-os.system(command)
-subprocess.call("python3 usb.py", shell=True)
+subprocess.call("python3 usb.py &", shell=True)
+initGame()
+while True:
+    getData = os.system("pgrep -l mednafen")
+    if getData!=0:
+        initGame()
