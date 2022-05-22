@@ -27,17 +27,18 @@ while True:
             os.system("pkill -STOP mednafen")
         except:
             print("Mednafen is not running")
-        os.system("mount /dev/sda "+mountDir)
         #Waits until the device is mounted
-        sleep(5)
+        sleep(3)
+        os.system("sudo mount /dev/sda1 "+mountDir)
         with os.scandir(mountDir) as contentUSB:
             for file in contentUSB:
                 if file.is_file():
                     print("Copying \n")
                     completePathGame = mountDir+"/"+file.name
+                    print("Game: ", completePathGame)
                     shutil.copy(completePathGame, destPathGames)
         #print("Completed")
-        os.system("umount "+mountDir)
+        os.system("sudo umount "+mountDir)
         try:
             os.system("pkill -CONT mednafen")
         except:
