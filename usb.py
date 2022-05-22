@@ -9,7 +9,7 @@ from time import sleep
 import shutil
 from pyudev import Context, Monitor
 
-mountDir = "/media/pi"
+mountDir = "/media"
 destPathGames = "/home/pi/Documents/Games"
 
 context = Context()
@@ -27,19 +27,17 @@ while True:
             os.system("pkill -STOP mednafen")
         except:
             print("Mednafen is not running")
+        os.system("mount /dev/sda "+mountDir)
         #Waits until the device is mounted
         sleep(5)
-        #Name of the USB as String
-        nameUSB = str(os.listdir(mountDir)[0])
-        pathUSB = mountDir+"/"+nameUSB
-        with os.scandir(pathUSB) as contentUSB:
+        with os.scandir(mountDir) as contentUSB:
             for file in contentUSB:
                 if file.is_file():
                     print("Copying \n")
-                    completePathGame = pathUSB+"/"+file.name
+                    completePathGame = mountDir+"/"+file.name
                     shutil.copy(completePathGame, destPathGames)
         #print("Completed")
-        os.system("umount "+pathUSB)
+        os.system("umount "+mountDir)
         try:
             os.system("pkill -CONT mednafen")
         except:
