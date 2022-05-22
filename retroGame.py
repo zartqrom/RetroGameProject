@@ -5,11 +5,9 @@
 # Description: Displays games available to run in Madfen
 ################################################
 
-import os, sys
-from time import sleep
+import os
 import enquiries
 import subprocess
-import pyudev
 
 listGamesExtension = [".apple2", ".gb", ".gbc", ".gba", ".gg", ".lynx", ".nes", ".snes",
                       ".pce", ".lynx", ".md", ".pcfx", ".ngp", ".psx", ".sms", ".pce_fast",
