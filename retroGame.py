@@ -25,18 +25,29 @@ posibleGames=[]
  
 def getGames():
     files = os.listdir(dirGames)
-    print(files,"\n")
     for element in files:
         for ext in listGamesExtension:
             if element.endswith(ext):
                 gamesToRun.append(element)
 
-def initGame():
+def initGame(list):
     os.system("clear")
-    choice = enquiries.choose('Choose one: ', gamesToRun)
+    print(list)
+    choice = enquiries.choose('Choose one: ', list)
     game = "\""+choice+"\""
     command = "mednafen "+dirGames+"/"+game+" &"
     os.system(command)
+    sleep(15)
+
+def filterGame(list):
+    list.clear()
+    #Abra el teclado
+    gameName = input("Input the game name: ")
+    for elem in gamesToRun:
+        elem = str(elem)
+        if elem.lower().find(gameName.lower()) >= 0:
+            list.append(elem)
+    initGame(list)
 
 def startupWindow():
     os.system("clear")
@@ -49,17 +60,9 @@ def startupWindow():
     getGames()
     choice = enquiries.choose('Choose one: ', optionsMenu)
     if choice == optionsMenu[0]:
-        posibleGames.clear()
-        #Abra el teclado
-        gameName = input("Input the game name: ")
-        for elem in gamesToRun:
-            elem = str(elem)
-            if elem.lower() == gameName.lower():
-                posibleGames.append()
-        command = "mednafen "+dirGames+"/"+game+" &"
-        os.system(command)
+        filterGame(posibleGames)
     else:
-        initGame()
+        initGame(gamesToRun)
 
 subprocess.call("python3 usb.py &", shell=True)
 
