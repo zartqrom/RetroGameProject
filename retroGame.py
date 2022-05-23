@@ -11,6 +11,8 @@ from time import sleep
 import enquiries
 import subprocess
 
+optionsMenu = ["1.Search game", "2.Show list"]
+
 listGamesExtension = [".apple2", ".gb", ".gbc", ".gba", ".gg", ".lynx", ".nes", ".snes",
                       ".pce", ".lynx", ".md", ".pcfx", ".ngp", ".psx", ".sms", ".pce_fast",
                       ".ssfplay", ".cue", ".sfc", ".smc"]
@@ -18,6 +20,8 @@ listGamesExtension = [".apple2", ".gb", ".gbc", ".gba", ".gg", ".lynx", ".nes", 
 dirGames="/home/pi/Documents/Games"
 
 gamesToRun=[]
+
+posibleGames=[]
  
 def getGames():
     files = os.listdir(dirGames)
@@ -28,18 +32,39 @@ def getGames():
                 gamesToRun.append(element)
 
 def initGame():
-    #Clears the list of games
-    gamesToRun.clear()
-    getGames()
     os.system("clear")
     choice = enquiries.choose('Choose one: ', gamesToRun)
     game = "\""+choice+"\""
     command = "mednafen "+dirGames+"/"+game+" &"
     os.system(command)
 
+def startupWindow():
+    os.system("clear")
+    print("****************************")
+    print("*     Arcade Emulator      *")
+    print("*   Powered by Mednafen    *")
+    print("****************************")
+    #Clears the list of games
+    gamesToRun.clear()
+    getGames()
+    choice = enquiries.choose('Choose one: ', optionsMenu)
+    if choice == optionsMenu[0]:
+        posibleGames.clear()
+        #Abra el teclado
+        gameName = input("Input the game name: ")
+        for elem in gamesToRun:
+            elem = str(elem)
+            if elem.lower() == gameName.lower():
+                posibleGames.append()
+        command = "mednafen "+dirGames+"/"+game+" &"
+        os.system(command)
+    else:
+        initGame()
+
 subprocess.call("python3 usb.py &", shell=True)
-initGame()
+
+startupWindow()
 while True:
     getData = os.system("pgrep -l mednafen")
     if getData!=0:
-        initGame()
+        startupWindow()
