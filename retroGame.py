@@ -6,9 +6,11 @@
 ##########################################################
 
 import os
-from time import sleep
+import threading
 import enquiries
-import subprocess
+from time import sleep
+import shutil
+from pyudev import Context, Monitor
 
 optionsMenu = ["1.Search game", "2.Show list"]
 
@@ -21,6 +23,44 @@ dirGames="/home/pi/Documents/Games"
 gamesToRun=[]
 
 posibleGames=[]
+
+def usbConfig():
+    mountDir = "/media"
+    destPathGames = "/home/pi/Documents/Games"
+
+    context = Context()
+    monitor = Monitor.from_netlink(context)
+    monitor.filter_by(subsystem='usb', device_type='usb_device')
+    while True:
+        device = None
+        while device is None:
+            #print("Checando")
+            device = monitor.poll(timeout=1)
+        if device.action == "add":
+            #print("USB added")
+            try:
+                os.system("pkill -STOP mednafen")
+            except:
+                print("Mednafen is not running")
+            #Waits until the device is mounted
+            sleep(3)
+            os.system("sudo mount /dev/sda1 "+mountDir)
+            with os.scandir(mountDir) as contentUSB:
+                for file in contentUSB:
+                    if file.is_file():
+                        print("Copying \n")
+                        completePathGame = mountDir+"/"+file.name
+                        print("Game: ", completePathGame)
+                        shutil.copy(completePathGame, destPathGames)
+            #print("Completed")
+            os.system("sudo umount "+mountDir)
+            try:
+                os.system("pkill -CONT mednafen")
+            except:
+                print("Mednafen is not running")
+        elif device.action == "remove":
+            print("USB removed")
+            break
  
 def getGames():
     files = os.listdir(dirGames)
@@ -31,7 +71,6 @@ def getGames():
 
 def initGame(list):
     os.system("clear")
-    print(list)
     choice = enquiries.choose('Choose one: ', list)
     game = "\""+choice+"\""
     command = "/usr/games/mednafen "+dirGames+"/"+game+" &"
@@ -62,8 +101,9 @@ def startupWindow():
     else:
         initGame(gamesToRun)
 
-subprocess.call("python3 usb.py &", shell=True)
+thread = threading.Thread(target=usbConfig)
 
+thread.start()
 startupWindow()
 while True:
     getData = os.system("pgrep -l mednafen")
