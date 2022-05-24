@@ -5,7 +5,6 @@
 # Description: Displays games available to run in Mednafen
 ##########################################################
 
-from dataclasses import replace
 import os
 from time import sleep
 import enquiries
@@ -37,7 +36,6 @@ def initGame(list):
     game = "\""+choice+"\""
     command = "mednafen "+dirGames+"/"+game+" &"
     os.system(command)
-    sleep(15)
 
 def filterGame(list):
     list.clear()
