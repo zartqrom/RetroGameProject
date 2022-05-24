@@ -34,7 +34,7 @@ def initGame(list):
     print(list)
     choice = enquiries.choose('Choose one: ', list)
     game = "\""+choice+"\""
-    command = "mednafen "+dirGames+"/"+game+" &"
+    command = "/usr/games/mednafen "+dirGames+"/"+game+" &"
     os.system(command)
 
 def filterGame(list):
