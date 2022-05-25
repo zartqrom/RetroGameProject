@@ -12,7 +12,7 @@ from time import sleep
 import shutil
 from pyudev import Context, Monitor
 
-optionsMenu = ["1.Search game", "2.Show list"]
+optionsMenu = ["1.Search game", "2.Show list", "3.Shutdown"]
 
 listGamesExtension = [".apple2", ".gb", ".gbc", ".gba", ".gg", ".lynx", ".nes", ".snes",
                       ".pce", ".lynx", ".md", ".pcfx", ".ngp", ".psx", ".sms", ".pce_fast",
@@ -26,7 +26,6 @@ posibleGames=[]
 
 def usbConfig():
     mountDir = "/media"
-    destPathGames = "/home/pi/Documents/Games"
 
     context = Context()
     monitor = Monitor.from_netlink(context)
@@ -51,8 +50,7 @@ def usbConfig():
                         print("Copying \n")
                         completePathGame = mountDir+"/"+file.name
                         print("Game: ", completePathGame)
-                        shutil.copy(completePathGame, destPathGames)
-            #print("Completed")
+                        shutil.copy(completePathGame, dirGames)
             os.system("sudo umount "+mountDir)
             try:
                 os.system("pkill -CONT mednafen")
@@ -98,8 +96,11 @@ def startupWindow():
     choice = enquiries.choose('Choose one: ', optionsMenu)
     if choice == optionsMenu[0]:
         filterGame(posibleGames)
-    else:
+    elif choice == optionsMenu[1]:
         initGame(gamesToRun)
+    else:
+        os.system("sudo shutdown now")
+
 
 thread = threading.Thread(target=usbConfig)
 
